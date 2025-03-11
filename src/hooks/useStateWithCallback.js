@@ -1,18 +1,23 @@
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-// import Room from './pages/Room';
-// import Main from './pages/Main';
-// import NotFound404 from './pages/NotFound404';
+import {useState, useCallback, useRef, useEffect} from 'react';
 
-function App() {
-    return (
-        <BrowserRouter>
-            <Switch>
-                {/*<Route exact path='/room/:id' component={Room}/>*/}
-                {/*<Route exact path='/' component={Main}/>*/}
-                {/*<Route component={NotFound404}/>*/}
-            </Switch>
-        </BrowserRouter>
-    );
+const useStateWithCallback = initialState => {
+    const [state, setState] = useState(initialState);
+    const cbRef = useRef(null);
+
+    const updateState = useCallback((newState, cb) => {
+        cbRef.current = cb;
+
+        setState(prev => typeof newState === 'function' ? newState(prev) : newState);
+    }, []);
+
+    useEffect(() => {
+        if (cbRef.current) {
+            cbRef.current(state);
+            cbRef.current = null;
+        }
+    }, [state]);
+
+    return [state, updateState];
 }
 
-export default App;
+export default useStateWithCallback;
