@@ -11,4 +11,6 @@ const ACTIONS = {
 };
 
 // eslint-disable-next-line no-undef
-module.exports = ACTIONS;
+// module.exports = ACTIONS;
+
+export default ACTIONS;

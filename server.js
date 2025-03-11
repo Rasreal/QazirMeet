@@ -1,19 +1,36 @@
+// /* eslint-disable no-undef */
+//
+//
+// const path = require('path');
+// const express = require('express');
+// const app = express();
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server);
+// const {version, validate} = require('uuid');
+//
+// const ACTIONS = require('./src/socket/actions');
+// const PORT = process.env.PORT || 3001;
+//
+//
+//
 /* eslint-disable no-undef */
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import { version, validate } from 'uuid';
+import ACTIONS from './src/socket/actions.js';
 
-const path = require('path');
-const express = require('express');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const {version, validate} = require('uuid');
+const server = createServer(app);
+const io = new Server(server);
 
-const ACTIONS = require('./src/socket/actions');
-const PORT = process.env.PORT || 3001;
-
-
-
-
+const PORT = process.env.PORT || 5173;
 
 function getClientRooms() {
     const {rooms} = io.sockets.adapter;
