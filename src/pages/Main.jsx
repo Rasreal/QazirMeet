@@ -10,11 +10,16 @@ export default function Main() {
     const rootNode = useRef(null);
 
     useEffect(() => {
+
+        console.log("started main jsx code")
         socket.on(ACTIONS.SHARE_ROOMS, ({ rooms = [] } = {}) => {
+            console.log("started socket")
             if (rootNode.current) {
                 updateRooms(rooms);
             }
         });
+
+        console.log("started socket", rooms)
 
         return () => {
             //при анмаунте, очистка
